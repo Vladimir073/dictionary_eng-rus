@@ -1,5 +1,6 @@
 export interface DictionaryModel {
-  id?: string;
-  eng: string;
-  rus: string;
+    id: string;
+    eng: string;
+    rus: string;
+    checked: boolean;
 }
