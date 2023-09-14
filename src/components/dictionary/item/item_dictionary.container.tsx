@@ -1,6 +1,6 @@
 import { FC, memo } from 'react';
 import { DictionaryModel } from '../../../models/state/dictionary_state.model';
-import { Button, Checkbox } from '@mui/material';
+import { Button, Checkbox, Stack } from '@mui/material';
 import { Close } from '@mui/icons-material';
 
 interface IItemDictionary extends DictionaryModel {
@@ -10,9 +10,9 @@ interface IItemDictionary extends DictionaryModel {
 
 export const ItemDictionary: FC<IItemDictionary> = memo(({ rus, eng, checked, handleOnChecked, handleDelete, id }) => {
     return (
-        <li>
+        <Stack direction='row'>
             <Checkbox checked={checked} color='secondary' onClick={() => handleOnChecked(id)} />
-            <span>
+            <span style={{ flex: '1 1', textAlign: 'start', height: 'auto' }}>
                 {eng} - {rus}
             </span>
             <Button
@@ -24,6 +24,6 @@ export const ItemDictionary: FC<IItemDictionary> = memo(({ rus, eng, checked, ha
             >
                 <Close />
             </Button>
-        </li>
+        </Stack>
     );
 });

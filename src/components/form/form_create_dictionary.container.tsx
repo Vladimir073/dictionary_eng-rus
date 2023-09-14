@@ -2,6 +2,7 @@ import { Button, FormControl, Stack, TextField } from '@mui/material';
 import { FC, memo, useCallback, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { DictionaryModel } from '../../models/state/dictionary_state.model';
+import { localStorageValue } from '../../constants/localStorage.constants';
 
 type FormCreate = { dictionary: DictionaryModel[]; setDictionary: (val: DictionaryModel[]) => void };
 
@@ -27,7 +28,12 @@ export const FormCreateDictionary: FC<FormCreate> = memo(({ dictionary, setDicti
                 setValidated({ ...validated, rus: true });
                 return;
             }
-            setDictionary([...dictionary, { ...valueEngRus, checked: false, id: uuidv4() }]);
+            let newDictionary = [...dictionary, { ...valueEngRus, checked: false, id: uuidv4() }];
+            const completedArray = newDictionary.filter(item => item.checked);
+            const uncompletedArray = newDictionary.filter(item => !item.checked);
+            setDictionary([...uncompletedArray, ...completedArray]);
+            localStorage.clear();
+            localStorage.setItem(localStorageValue, JSON.stringify([...uncompletedArray, ...completedArray]));
             setValueEngRus({ eng: '', rus: '' });
         },
         [dictionary, setDictionary, validated, valueEngRus],
