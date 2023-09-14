@@ -1,4 +1,4 @@
-import { FC, memo, useEffect, useState } from 'react';
+import { FC, memo, useCallback, useEffect, useState } from 'react';
 import { DictionaryModel } from '../../../models/state/dictionary_state.model';
 import { ItemDictionary } from '../item/item_dictionary.container';
 import { CssBaseline, Stack } from '@mui/material';
@@ -8,24 +8,29 @@ import { FormCreateDictionary } from '../../form/form_create_dictionary.containe
 export const ListDictionary: FC = memo(() => {
     const [dictionary, setDictionary] = useState<DictionaryModel[]>([]);
 
-    function changeChecked(id: string) {
-        const updateDictionary = dictionary.map<DictionaryModel>(item => {
-            if (item.id === id) {
-                return { ...item, checked: !item.checked };
-            } else {
-                return item;
-            }
-        });
-        const completedArray = updateDictionary.filter(item => item.checked);
-        const uncompletedArray = updateDictionary.filter(item => !item.checked);
-        setDictionary([...uncompletedArray, ...completedArray]);
-        localStorage.clear();
-        localStorage.setItem(localStorageValue, JSON.stringify([...uncompletedArray, ...completedArray]));
-    }
+    const changeChecked = useCallback(
+        (id: string) => {
+            const updateDictionary = dictionary.map<DictionaryModel>(item => {
+                if (item.id === id) {
+                    return { ...item, checked: !item.checked };
+                } else {
+                    return item;
+                }
+            });
+            const completedArray = updateDictionary.filter(item => item.checked);
+            const uncompletedArray = updateDictionary.filter(item => !item.checked);
+            setDictionary([...uncompletedArray, ...completedArray]);
+            localStorage.clear();
+            localStorage.setItem(localStorageValue, JSON.stringify([...uncompletedArray, ...completedArray]));
+        },
+        [dictionary],
+    );
 
     function handleDeleteItemDictionary(id: string) {
         const dictionaryFilter = dictionary.filter(item => item.id !== id);
         setDictionary(dictionaryFilter);
+        localStorage.clear();
+        localStorage.setItem(localStorageValue, JSON.stringify(dictionaryFilter));
     }
 
     useEffect(() => {
@@ -34,19 +39,15 @@ export const ListDictionary: FC = memo(() => {
         }
     }, []);
 
-    // useEffect(() => {
-    //     const checkedArr = dictionary.filter(item => item.checked);
-    //     const uncheckedArr = dictionary.filter(item => !item.checked);
-    //     setDictionary([...checkedArr, ...uncheckedArr]);
-    // }, [dictionary]);
-
     return (
-        <div style={{ width: '100vw', height: '100vh', textAlign: 'center' }}>
-            <Stack sx={{ maxWidth: '500px' }} margin='0 auto'>
+        <div
+            style={{ width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', textAlign: 'center' }}
+        >
+            <Stack sx={{ maxWidth: '500px', p: ' 0 10px' }}>
                 <CssBaseline />
                 <h1>Dictionary English-Russia</h1>
                 <FormCreateDictionary dictionary={dictionary} setDictionary={setDictionary} />
-                <ul>
+                <Stack spacing={1} sx={{ mt: '15px' }}>
                     {dictionary.map(item => {
                         return (
                             <ItemDictionary
@@ -60,7 +61,7 @@ export const ListDictionary: FC = memo(() => {
                             />
                         );
                     })}
-                </ul>
+                </Stack>
             </Stack>
         </div>
     );
