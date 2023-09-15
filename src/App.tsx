@@ -1,7 +1,8 @@
-import { ListDictionary } from "./components/dictionary/list/list_dictionary.container";
+import { memo } from 'react';
+import { ListDictionary } from './components/dictionary/list/list_dictionary.container';
 
 function App() {
-  return <ListDictionary />;
+    return <ListDictionary />;
 }
 
-export default App;
+export default memo(App);
