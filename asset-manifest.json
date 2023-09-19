@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/dictionary_eng-rus/static/css/main.e6c13ad2.css",
+    "main.js": "/dictionary_eng-rus/static/js/main.a5f836bb.js",
+    "index.html": "/dictionary_eng-rus/index.html",
+    "main.e6c13ad2.css.map": "/dictionary_eng-rus/static/css/main.e6c13ad2.css.map",
+    "main.a5f836bb.js.map": "/dictionary_eng-rus/static/js/main.a5f836bb.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.a5f836bb.js"
+  ]
+}
