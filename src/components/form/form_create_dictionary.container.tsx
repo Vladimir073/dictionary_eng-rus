@@ -32,7 +32,7 @@ export const FormCreateDictionary: FC<FormCreate> = memo(({ dictionary, setDicti
             const completedArray = newDictionary.filter(item => item.checked);
             const uncompletedArray = newDictionary.filter(item => !item.checked);
             setDictionary([...uncompletedArray, ...completedArray]);
-            localStorage.clear();
+            localStorage.removeItem(localStorageValue);
             localStorage.setItem(localStorageValue, JSON.stringify([...uncompletedArray, ...completedArray]));
             setValueEngRus({ eng: '', rus: '' });
         },

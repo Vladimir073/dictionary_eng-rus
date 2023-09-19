@@ -20,7 +20,7 @@ export const ListDictionary: FC = memo(() => {
             const completedArray = updateDictionary.filter(item => item.checked);
             const uncompletedArray = updateDictionary.filter(item => !item.checked);
             setDictionary([...uncompletedArray, ...completedArray]);
-            localStorage.clear();
+            localStorage.removeItem(localStorageValue);
             localStorage.setItem(localStorageValue, JSON.stringify([...uncompletedArray, ...completedArray]));
         },
         [dictionary],
@@ -29,12 +29,12 @@ export const ListDictionary: FC = memo(() => {
     function handleDeleteItemDictionary(id: string) {
         const dictionaryFilter = dictionary.filter(item => item.id !== id);
         setDictionary(dictionaryFilter);
-        localStorage.clear();
+        localStorage.removeItem(localStorageValue);
         localStorage.setItem(localStorageValue, JSON.stringify(dictionaryFilter));
     }
 
     useEffect(() => {
-        if (localStorage.length) {
+        if (localStorage.length > 0 && localStorage.getItem(localStorageValue) !== null) {
             setDictionary(JSON.parse(localStorage.getItem(localStorageValue) || ''));
         }
     }, []);
